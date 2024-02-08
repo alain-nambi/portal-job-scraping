@@ -23,6 +23,8 @@ app.post('/get-pdf', async (req, res) => {
         } else {
             res.status(500).json({
                 error: 'Erreur lors de l\'enregistrement du PDF',
+                message: message,
+                jobLists: jobLists,
             });
         }
     } catch (err) {
@@ -32,7 +34,8 @@ app.post('/get-pdf', async (req, res) => {
     }
 });
 
-
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
+
+server.setTimeout(300000)

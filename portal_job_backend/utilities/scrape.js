@@ -13,6 +13,8 @@ import { extractJobData } from "./extract.js";
 const webDevUrl =
   "https://www.portaljob-madagascar.com/emploi/liste/secteur/informatique-web/page/";
 
+// const comptaURL = "https://www.portaljob-madagascar.com/emploi/liste/secteur/gestion-comptabilite-finance/page/"
+
 const findTextByHTMLTag = ($annonce, HTMLTag) => {
   const textFound = $annonce
     .find(contenuAnnonceSelector)
@@ -72,6 +74,8 @@ const scrapeJobData = async (pageNumber) => {
             "Aucune donnée récupérée. Veuillez vérifier l'URL ou réessayer plus tard"
           )
         );
+
+        return { message: "fails", jobLists: [] };
       }
     } else {
       console.log('No page');

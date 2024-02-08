@@ -50,6 +50,7 @@ const extractJobData = async ($annonce) => {
 
     return { jobData };
   } catch (error) {
+    await extractJobData($annonce)
     console.error("Error extracting job data : " + error.message);
     throw error;
   }

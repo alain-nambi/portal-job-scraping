@@ -32,35 +32,49 @@ import CircleLoader from "react-spinners/CircleLoader";
 const CardForm = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [data, setData] = useState([]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
 
     if (id === "pageNumber" && /^\d+$/.test(value)) {
-      setPageNumber(parseInt(value));
+      const pageNumber = parseInt(value)
+      if (pageNumber > 0 && pageNumber < 26) { setPageNumber(pageNumber) }
     }
   };
+
+  const axiosInstance = axios.create({
+    timeout: 10000000, // Set timeout to 300 seconds
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
+      setIsSuccess(false)
       setIsLoading(true);
 
-      const response = await axios.post("http://localhost:3018/get-pdf", {
+      const response = await axiosInstance.post("http://localhost:3018/get-pdf", {
         pageNumber: pageNumber,
       });
 
       if (response.data) {
         const { jobLists } = response.data;
+
+        setIsSuccess(true)
         setData(jobLists);
       }
 
       setIsLoading(false);
+
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 1600)
     } catch (error) {
       console.error(`Error: ${error}`);
       setIsLoading(false);
+      setIsSuccess(false)
     }
   };
 
@@ -82,6 +96,8 @@ const CardForm = () => {
                 <Input
                   type="number"
                   id="pageNumber"
+                  min={1}
+                  max={25}
                   placeholder="Entrez le nombre de pages souhaité (0 à 99)"
                   onChange={handleInputChange}
                   value={pageNumber}
@@ -90,29 +106,35 @@ const CardForm = () => {
               <div className="flex flex-col space-y-2">
                 <Label htmlFor="jobType">Type d'emploi</Label>
                 <Select>
-                  <SelectTrigger id="jobType">
-                    <SelectValue placeholder="Sélectionner le type d'emploi" />
+                  <SelectTrigger id="jobType" disabled>
+                    <SelectValue placeholder="Informatique / Web" />
                   </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="all">Tous</SelectItem>
-                    <SelectItem value="full-time">Entreprise</SelectItem>
-                    <SelectItem value="part-time">Personnel</SelectItem>
-                  </SelectContent>
+                  {/* <SelectContent position="popper">
+                    <SelectItem value="informatique-web" >Informatique / Web</SelectItem>
+                  </SelectContent> */}
                 </Select>
               </div>
             </div>
             <Button
-              className="w-full mt-6 bg-blue-600 hover:bg-blue-500"
+              className={`w-full mt-6 ${isSuccess ? 'bg-green-600' : 'bg-blue-600 hover:bg-blue-500'}`}
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? (
+              {isLoading && !isSuccess && (
                 <>
                   <CircleLoader className="mr-2" color="#ffffff" size={15} speedMultiplier={0.7} />
-                  <span>Chargement...</span>
+                  <span>Récupérations des emplois...</span>
                 </>
-              ) : (
-                "Trouver de nouvelles opportunités"
+              )}
+              {isSuccess && !isLoading && (
+                <>
+                  <span>Récupération avec succès...</span>
+                </>
+              )}
+              {!isSuccess && !isLoading && (
+                <>
+                  <span>Trouver de nouvelles opportunités</span>
+                </>
               )}
             </Button>
           </form>
