@@ -55,7 +55,7 @@ const CardForm = () => {
       setIsSuccess(false)
       setIsLoading(true);
 
-      const response = await axiosInstance.post("http://localhost:3018/get-pdf", {
+      const response = await axiosInstance.post("https://portal-job-scraping.vercel.app/get-pdf", {
         pageNumber: pageNumber,
       });
 
