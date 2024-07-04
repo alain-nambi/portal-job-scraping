@@ -8,10 +8,7 @@ app.use(bodyParser.json());
 
 // Configuration du middleware CORS pour autoriser les requêtes provenant de toutes les origines
 const corsOptions = {
-    origin: '*', // Vous pouvez spécifier une origine spécifique ici au lieu de '*' pour plus de sécurité
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    origin: '*'
 };
 
 app.use(cors(corsOptions));
