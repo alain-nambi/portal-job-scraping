@@ -15,6 +15,8 @@ app.post('/get-pdf', async (req, res) => {
     const { pageNumber } = req.body;
     try {
         const { message, jobLists } = await scrapeJobData(pageNumber);
+
+        console.time('Hello scraping has started')
         if (message === 'data_pdf_saved') {
             res.status(200).json({
                 message: 'Enregistrement du PDF avec succès',
@@ -27,6 +29,8 @@ app.post('/get-pdf', async (req, res) => {
                 jobLists: jobLists,
             });
         }
+
+        console.timeEnd('Hello scraping has started')
     } catch (err) {
         res.status(500).json({
             error: err.message,
