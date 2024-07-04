@@ -47,8 +47,6 @@ app.post('/get-pdf', async (req, res) => {
     }
 });
 
-const server = app.listen(port, () => {
+app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
-
-server.setTimeout(300000)
