@@ -12,16 +12,11 @@ export const uniqueFileName = () => {
 
 /**
  * Check if a string represents an integer.
- * @param {string} plainText - The input string to check.
- * @returns {boolean} True if the string represents an integer, false otherwise.
  */
 export const isNumberedPoint = (plainText) => Number.isInteger(parseInt(plainText.trim()));
 
 /**
  * Format a bulleted list by adding a newline before each bullet point.
- * @param {string} plainText - The input string containing a bulleted list.
- * @returns {string} The formatted bulleted list.
- * @throws Will throw an error if there is an issue during formatting.
  */
 export const formatBulletedList = (plainText) => {
   try {
