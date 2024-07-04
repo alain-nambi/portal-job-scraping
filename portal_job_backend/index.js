@@ -5,7 +5,16 @@ import cors from "cors";
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors())
+
+// Configuration du middleware CORS pour autoriser les requêtes provenant de toutes les origines
+const corsOptions = {
+    origin: '*', // Vous pouvez spécifier une origine spécifique ici au lieu de '*' pour plus de sécurité
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 
 const port = 3018; 
 
