@@ -44,10 +44,6 @@ const CardForm = () => {
     }
   };
 
-  const axiosInstance = axios.create({
-    timeout: 10000000, // Set timeout to 300 seconds
-  });
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -55,7 +51,7 @@ const CardForm = () => {
       setIsSuccess(false)
       setIsLoading(true);
 
-      const response = await axiosInstance.post("https://portal-job-scraping.vercel.app/get-pdf", {
+      const response = await axios.post("http://localhost:3018/get-pdf", {
         pageNumber: pageNumber,
       });
 
